@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import streamlit as st
 
-#! basic configurations
+#! Basic configurations
 st.set_page_config(
     page_title="Fin-Tools",
     page_icon="💸",
@@ -12,3 +12,5 @@ st.set_page_config(
 
 #! App header
 st.header("Welcome to the solutions everything related to money")
+
+st.write('Calculate Home Loan EMIs')
