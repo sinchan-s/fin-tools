@@ -13,4 +13,4 @@ st.set_page_config(
 #! App header
 st.header("Welcome to the solutions everything related to money")
 
-st.write('Calculate Home Loan EMIs')
+st.button('Calculate Home Loan EMIs')
