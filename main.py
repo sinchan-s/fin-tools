@@ -13,11 +13,20 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="collapsed")
 
+#! Clean Footer
+hide_default_format = """
+       <style>
+       #MainMenu {visibility: hidden; }
+       footer {visibility: hidden;}
+       </style>
+       """
+st.markdown(hide_default_format, unsafe_allow_html=True)
+
 #! App header
-st.header("Welcome to the solutions everything related to money")
+st.title("Welcome to the solutions everything related to money")
 
 #! Tabs declaration
-tab1, tab2 = st.tabs(['SIP Returns', 'Loan Calculator'])
+tab1, tab2, tab3 = st.tabs(['SIP Returns', 'Loan Calculator', 'Tax Calculator'])
 
 #! Tab1 contents:
 #?Tab1 slider controls
@@ -59,3 +68,23 @@ pie_data = {'Interest Amount': interest_amt, 'Principal Amount': loan_amt}
 fig2 = px.pie(values=pie_data.values(), names=pie_data.keys(), labels=pie_data.keys(), title='Principal vs Loan Interest', hole=0.6, width=500, height=500)
 fig2.update_traces(textposition='outside', textinfo='percent', marker=dict(colors=colors, line=dict(color='#000000', width=2)))
 t2col1.plotly_chart(fig2)
+
+#! Tab3 contents:
+#?Tab3 tax regime selection
+t3col1, t3col2 = tab3.columns(2)
+t3col1.header("Choose your Tax regime:")
+t3col2.selectbox('',["Old Tax Regime","New Tax Regime"])
+#?Tab3 
+sal = t3col1.number_input("Salary Received",100000,10000000)
+t3col2.metric("Your Tax",f'₹ {round(sal):,}')
+#?Tab3 exemptions & deductions
+t3col1.subheader("Exemptions")
+hra = t3col1.number_input("Exemption for HRA",0,1000000)
+pt = t3col1.number_input("Professional Tax",0,10000)
+hl = t3col1.number_input("Housing Loan Interest",0,10000)
+gross_sal = t3col1.metric("Gross Total Income",f'₹ {round(sal-hra-pt-hl-50000):,}')
+t3col2.subheader("Deductions")
+c80 = t3col2.number_input("Section 80C (LIC, ELSS, PPF etc.)",0,1000000)
+ccd80 = t3col2.number_input("Section 80CCD (NPS Employee Contribution only)",0,10000)
+d80 = t3col2.number_input("Section 80D (Medical Insurance Premium of Self & Parents)",0,10000)
+net_incm = t3col2.metric("Net Taxable Income",f'₹ {round(gross_sal-c80-ccd80-d80):,}')
