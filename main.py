@@ -109,7 +109,7 @@ else:
     tax15 = round(0 if net_sal<900000 else (net_sal-900000)*0.15 if net_sal>900000 and net_sal<1200000 else 45000)
     tax20 = round(0 if net_sal<1200000 else (net_sal-1200000)*0.2 if net_sal>1200000 and net_sal<1500000 else 60000)
     tax30 = round(0 if net_sal<1500000 else (net_sal-1500000)*0.3)
-    cess = round(0 if net_sal<700000 else (tax5+tax10+tax15+tax20+tax30)*0.04)
+    cess = round(0 if net_sal<=700000 else (tax5+tax10+tax15+tax20+tax30)*0.04)
     rebate = round(0 if net_sal>700000 else tax5+tax10)
     t3col1.subheader(f"Up to ₹ 3 lakh @ 0% = ₹ 0")
     t3col2.subheader(f"₹ 3,00,001 to ₹ 6 lakh @ 5% = ₹ {tax5:,}")
