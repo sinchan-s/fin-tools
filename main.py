@@ -70,32 +70,55 @@ fig2.update_traces(textposition='outside', textinfo='percent', marker=dict(color
 t2col1.plotly_chart(fig2)
 
 #! Tab3 contents:
+#?Tab3 variables
+tenK = 10000
 #?Tab3 tax regime selection
-# tab3.header('Calculate your Tax')
 t3col1, t3col2 = tab3.columns(2)
-sal = t3col1.number_input("Salary Received",100000,10000000)
+sal = t3col1.number_input("Salary Received",10*tenK,1000*tenK)
 tax_regime = t3col2.radio('Choose your Tax regime:',["Old Tax Regime","New Tax Regime"])
 #?Tab3 exemptions & deductions
 t3col1.subheader("Exemptions")
-hra = t3col1.number_input("HRA",0,1000000)
-pt = t3col1.number_input("Professional Tax",0,10000)
-hl = t3col1.number_input("Housing Loan Interest",0,10000)
-std_dedct = 50000
+hra = t3col1.number_input("HRA",0,100*tenK)
+pt = t3col1.number_input("Professional Tax",0,tenK)
+hl = t3col1.number_input("Housing Loan Interest",0,tenK)
+std_dedct = 5*tenK
 gross_sal = round(sal-hra-pt-hl-std_dedct)
 gross_sal_display = t3col1.metric("Gross Total Income (with ₹ 50000 standard deduction)",f'₹ {gross_sal:,}')
 t3col2.subheader("Deductions")
-c80 = t3col2.number_input("Section 80C (LIC, ELSS, PPF etc.)",0,1000000)
-ccd80 = t3col2.number_input("Section 80CCD (NPS Employee Contribution only)",0,1000000)
-d80 = t3col2.number_input("Section 80D (Medical Insurance Premium of Self & Parents)",0,1000000)
-net_sal = round(gross_sal-(c80 if c80<150000 else 150000)-(ccd80 if ccd80<50000 else 50000)-(d80 if ccd80<100000 else 100000))
+c80 = t3col2.number_input("Section 80C (LIC, ELSS, PPF etc.)",0,100*tenK)
+ccd80 = t3col2.number_input("Section 80CCD (NPS Employee Contribution only)",0,100*tenK)
+d80 = t3col2.number_input("Section 80D (Medical Insurance Premium of Self & Parents)",0,100*tenK)
+net_sal = round(gross_sal-(c80 if c80<15*tenK else 15*tenK)-(ccd80 if ccd80<5*tenK else 5*tenK)-(d80 if ccd80<10*tenK else 10*tenK))
 t3col2.metric("Net Taxable Income",f'₹ {net_sal:,}')
 #?Tab3 tax calculation
+class calc_tax:
+    def __init__(self,net_sal, slab, slab_int, slab2, tax_rate, *args):
+        self.net_sal = net_sal
+        self.slab = slab
+        self.slab_int = slab_int
+        self.slab2 = slab2
+        self.tax_rate = tax_rate
+        self.tax_list = args
+    def tax_slab1(self):
+        tax1 = round(0 if self.net_sal<self.slab*tenK else (self.net_sal-self.slab*tenK)*self.slab_int if self.net_sal>self.slab*tenK and self.net_sal<self.slab2*tenK else self.tax_rate*tenK)
+        return tax1
+    def tax_slab2(self):
+        tax2 = round(0 if self.net_sal<self.slab*tenK else (self.net_sal-self.slab*tenK)*self.slab_int)
+        return tax2
+    def cess4(self):
+        cess = round(0 if net_sal<self.slab2*tenK else sum(self.tax_list)*0.04)
+        return cess
+
 if tax_regime == "Old Tax Regime":
-    tax5 = round(0 if net_sal<250000 else (net_sal-250000)*0.05 if net_sal>250000 and net_sal<500000 else 12500)
-    tax20 = round(0 if net_sal<500000 else (net_sal-500000)*0.2 if net_sal>500000 and net_sal<1000000 else 100000)
-    tax30 = round(0 if net_sal<1000000 else (net_sal-1000000)*0.3)
-    cess = round(0 if net_sal<500000 else (tax5+tax20+tax30)*0.04)
-    rebate = round(0 if net_sal>500000 else tax5)
+    t5 = calc_tax(net_sal, 25, 0.05, 50, 1.25)
+    tax5 = t5.tax_slab1()
+    t20 = calc_tax(net_sal, 50, 0.2, 100, 10)
+    tax20 = t20.tax_slab1()
+    t30 = calc_tax(net_sal, 100, 0.3, 0, 0)
+    tax30 = t30.tax_slab2()
+    c4 = calc_tax(net_sal, 0, 0, 50, 0, tax5, tax20, tax30)
+    cess = c4.cess4()
+    rebate = round(0 if net_sal>50*tenK else tax5)
     t3col1.subheader(f"Up to ₹ 2.5 lakh @ 0% = ₹ 0")
     t3col2.subheader(f"₹ 2,50,001 to ₹ 5 lakh @ 5% = ₹ {tax5:,}")
     t3col1.subheader(f"₹ 5,00,001 to ₹ 10 lakh @ 20% = ₹ {tax20:,}")
@@ -104,13 +127,19 @@ if tax_regime == "Old Tax Regime":
     t3col2.subheader(f"Tax Rebate = ₹ {rebate:,}")
     t3col1.metric("Your Tax",f'₹ {round(tax5+tax20+tax30+cess-rebate):,}')
 else:
-    tax5 = round(0 if net_sal<300000 else (net_sal-300000)*0.05 if net_sal>300000 and net_sal<600000 else 15000)
-    tax10 = round(0 if net_sal<600000 else (net_sal-600000)*0.1 if net_sal>600000 and net_sal<900000 else 30000)
-    tax15 = round(0 if net_sal<900000 else (net_sal-900000)*0.15 if net_sal>900000 and net_sal<1200000 else 45000)
-    tax20 = round(0 if net_sal<1200000 else (net_sal-1200000)*0.2 if net_sal>1200000 and net_sal<1500000 else 60000)
-    tax30 = round(0 if net_sal<1500000 else (net_sal-1500000)*0.3)
-    cess = round(0 if net_sal<=700000 else (tax5+tax10+tax15+tax20+tax30)*0.04)
-    rebate = round(0 if net_sal>700000 else tax5+tax10)
+    t5 = calc_tax(net_sal, 30, 0.05, 60, 1.5)
+    tax5 = t5.tax_slab1()
+    t10 = calc_tax(net_sal, 60, 0.1, 90, 3)
+    tax10 = t10.tax_slab1()
+    t15 = calc_tax(net_sal, 90, 0.15, 120, 4.5)
+    tax15 = t15.tax_slab1()
+    t20 = calc_tax(net_sal, 120, 0.2, 150, 6)
+    tax20 = t20.tax_slab1()
+    t30 = calc_tax(net_sal, 150, 0.3, 0, 0)
+    tax30 = t30.tax_slab2()
+    c4 = calc_tax(net_sal, 0, 0, 50, 0, tax5, tax10, tax15, tax20, tax30)
+    cess = c4.cess4()
+    rebate = round(0 if net_sal>70*tenK else tax5+tax10)
     t3col1.subheader(f"Up to ₹ 3 lakh @ 0% = ₹ 0")
     t3col2.subheader(f"₹ 3,00,001 to ₹ 6 lakh @ 5% = ₹ {tax5:,}")
     t3col1.subheader(f"₹ 6,00,001 to ₹ 9 lakh @ 10% = ₹ {tax10:,}")
