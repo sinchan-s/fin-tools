@@ -25,8 +25,27 @@ st.markdown(hide_default_format, unsafe_allow_html=True)
 #! App header
 st.title("Welcome to the solutions everything related to money")
 
+#! tax calculator class
+class calc_tax:
+    def __init__(self,net_sal, slab, slab_int, slab2, tax_rate, *args):
+        self.net_sal = net_sal
+        self.slab = slab
+        self.slab_int = slab_int
+        self.slab2 = slab2
+        self.tax_rate = tax_rate
+        self.tax_list = args
+    def tax_slab1(self):
+        tax1 = round(0 if self.net_sal<self.slab*tenK else (self.net_sal-self.slab*tenK)*self.slab_int if self.net_sal>self.slab*tenK and self.net_sal<self.slab2*tenK else self.tax_rate*tenK)
+        return tax1
+    def tax_slab2(self):
+        tax2 = round(0 if self.net_sal<self.slab*tenK else (self.net_sal-self.slab*tenK)*self.slab_int)
+        return tax2
+    def cess4(self):
+        cess = round(0 if net_sal<self.slab2*tenK else sum(self.tax_list)*0.04)
+        return cess
+
 #! Tabs declaration
-tab1, tab2, tab3 = st.tabs(['SIP Returns', 'Loan Calculator', 'Tax Calculator'])
+tab1, tab2, tab3 = st.tabs(['SIP Returns', 'Loan EMI', 'Know Your Tax'])
 
 #! Tab1 contents:
 #?Tab1 slider controls
@@ -72,10 +91,12 @@ t2col1.plotly_chart(fig2)
 #! Tab3 contents:
 #?Tab3 variables
 tenK = 10000
+
 #?Tab3 tax regime selection
 t3col1, t3col2 = tab3.columns(2)
 sal = t3col1.number_input("Salary Received",10*tenK,1000*tenK)
 tax_regime = t3col2.radio('Choose your Tax regime:',["Old Tax Regime","New Tax Regime"])
+
 #?Tab3 exemptions & deductions
 t3col1.subheader("Exemptions")
 hra = t3col1.number_input("HRA",0,100*tenK)
@@ -90,25 +111,8 @@ ccd80 = t3col2.number_input("Section 80CCD (NPS Employee Contribution only)",0,1
 d80 = t3col2.number_input("Section 80D (Medical Insurance Premium of Self & Parents)",0,100*tenK)
 net_sal = round(gross_sal-(c80 if c80<15*tenK else 15*tenK)-(ccd80 if ccd80<5*tenK else 5*tenK)-(d80 if ccd80<10*tenK else 10*tenK))
 t3col2.metric("Net Taxable Income",f'₹ {net_sal:,}')
-#?Tab3 tax calculation
-class calc_tax:
-    def __init__(self,net_sal, slab, slab_int, slab2, tax_rate, *args):
-        self.net_sal = net_sal
-        self.slab = slab
-        self.slab_int = slab_int
-        self.slab2 = slab2
-        self.tax_rate = tax_rate
-        self.tax_list = args
-    def tax_slab1(self):
-        tax1 = round(0 if self.net_sal<self.slab*tenK else (self.net_sal-self.slab*tenK)*self.slab_int if self.net_sal>self.slab*tenK and self.net_sal<self.slab2*tenK else self.tax_rate*tenK)
-        return tax1
-    def tax_slab2(self):
-        tax2 = round(0 if self.net_sal<self.slab*tenK else (self.net_sal-self.slab*tenK)*self.slab_int)
-        return tax2
-    def cess4(self):
-        cess = round(0 if net_sal<self.slab2*tenK else sum(self.tax_list)*0.04)
-        return cess
 
+#?Tab3 tax calculation on regime basis
 if tax_regime == "Old Tax Regime":
     t5 = calc_tax(net_sal, 25, 0.05, 50, 1.25)
     tax5 = t5.tax_slab1()
