@@ -134,7 +134,7 @@ with tab3:
         st.metric("Net Taxable Income",f'₹ {net_sal:,}')
 
     #?Tab3 tax calculation on regime basis
-    with st.expander("v"):
+    with st.container():
         if tax_regime == "Old Tax Regime":
             tax5 = calc_tax(net_sal, 25, 0.05, 50, 1.25).tax_slab1()
             tax20 = calc_tax(net_sal, 50, 0.2, 100, 10).tax_slab1()
