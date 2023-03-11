@@ -1,5 +1,6 @@
 # Fin-Tools
-Various financial tools(calculators) related to money.
+Various financial tools(calculators) related to money.   
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://fin-tools.streamlit.app/)
 ## SIP Returns calculator:
 ![image](https://user-images.githubusercontent.com/63915540/223765652-70cfa803-1974-4748-9b75-a85ad8e13824.png) 
 
