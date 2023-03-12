@@ -8,4 +8,5 @@ Various financial tools(calculators) related to money.
 ![image](https://user-images.githubusercontent.com/63915540/223767052-89e66698-4b92-4a9e-b692-610ecb69b7f9.png)
 
 ## Tax Calculator:
-![image](https://user-images.githubusercontent.com/63915540/223502535-444fd679-6976-4ec2-ae43-da0502b5c580.png)
+![image](https://user-images.githubusercontent.com/63915540/224561613-7d94b3f7-5640-4098-9740-cad7df720866.png)
+
