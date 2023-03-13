@@ -45,7 +45,7 @@ class calc_tax:
         return cess
 
 #! Tabs declaration
-tab1, tab2, tab3 = st.tabs(['SIP Returns', 'Loan EMI', 'Know Your Tax'])
+tab1, tab2, tab3, tab4 = st.tabs(['SIP Returns', 'Loan EMI', 'Know Your Tax', 'PPF Calculator'])
 
 #! Tab1 contents:
 #?Tab1 columns defined
@@ -167,3 +167,32 @@ with tab3:
                 st.subheader(f"Cess @ 4% = ₹ {cess:,}")
                 st.subheader(f"Tax Rebate = ₹ {rebate:,}")
                 st.metric("Your Tax",f'₹ {round(tax5+tax10+tax15+tax20+tax30+cess-rebate):,}')
+
+#! Tab4 contents:
+#?Tab4 columns defined
+with tab4:
+    col1, col2 = st.columns(2)
+    
+    #?Tab4 slider controls
+    with col1:
+        inv_amt = st.select_slider('Yearly Investment',[n for n in np.arange(500, 150500, 500)])
+        time_period = st.slider('Time Period (in years)', 15, 50)
+        st.write('Rate of Interest: 7.1%')
+        interest_r = 7.1
+
+    #?Tab4 calculations & metric display
+    returns_t = inv_amt*(((1 + interest_r/100)**(time_period)-1)/(interest_r/100))
+    invested = inv_amt*time_period
+    exp_return = round(returns_t-invested)
+    with col2:
+        st.metric('Invested Amount', f'₹ {invested:,}',)
+        st.metric('Total Interest', f'₹ {exp_return:,}',f'{round(exp_return*100/invested,2)}%')
+        st.metric('Maturity Value', f'₹ {round(returns_t):,}',f'{round(returns_t/invested,2)}x ')
+
+    #?Tab4 pie chart
+    colors = ['darkorange', 'lightgreen']
+    pie_data = {'Expected Returns': exp_return, 'Total Invested': invested}
+    fig1 = px.pie(values=pie_data.values(), names=pie_data.keys(), labels=pie_data.keys(), title='Invested vs Returns', hole=0.6, width=500, height=500)
+    fig1.update_traces(textposition='outside', textinfo='percent', marker=dict(colors=colors, line=dict(color='#000000', width=2)))
+    with col1:
+        st.plotly_chart(fig1)
