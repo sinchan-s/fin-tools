@@ -54,7 +54,7 @@ with tab1:
     
     #?Tab1 slider controls
     with col1:
-        sip_amt = st.select_slider('Monthly Investment',[n for n in np.arange(100, 100500, 100)])
+        sip_amt = st.select_slider('Monthly Investment',[n for n in np.arange(100, 100100, 100)])
         interest_r = st.select_slider('Expected Interest (%)',[round(i,1) for i in np.arange(0.5, 30.1, 0.1)])
         time_period = st.slider('Time Period', 1, 40)
 
@@ -68,7 +68,7 @@ with tab1:
         st.metric('Total Value', f'₹ {round(returns_t):,}',f'{round(returns_t/invested,2)}x ')
 
     #?Tab1 pie chart
-    colors = ['darkorange', 'lightgreen']
+    colors = ['seagreen', 'lightgreen']
     pie_data = {'Expected Returns': exp_return, 'Total Invested': invested}
     fig1 = px.pie(values=pie_data.values(), names=pie_data.keys(), labels=pie_data.keys(), title='Invested vs Returns', hole=0.6, width=500, height=500)
     fig1.update_traces(textposition='outside', textinfo='percent', marker=dict(colors=colors, line=dict(color='#000000', width=2)))
@@ -97,7 +97,7 @@ with tab2:
         st.metric('Total Value', f'₹ {loan_plus_int:,}',f'{int_per_loan}x')
 
     #?Tab2 pie chart
-    colors = ['gold', 'mediumturquoise']
+    colors = ['orangered', 'salmon']
     pie_data = {'Interest Amount': interest_amt, 'Principal Amount': loan_amt}
     fig2 = px.pie(values=pie_data.values(), names=pie_data.keys(), labels=pie_data.keys(), title='Principal vs Loan Interest', hole=0.6, width=500, height=500)
     fig2.update_traces(textposition='outside', textinfo='percent', marker=dict(colors=colors, line=dict(color='#000000', width=2)))
@@ -190,7 +190,7 @@ with tab4:
         st.metric('Maturity Value', f'₹ {round(returns_t):,}',f'{round(returns_t/invested,2)}x ')
 
     #?Tab4 pie chart
-    colors = ['darkorange', 'lightgreen']
+    colors = ['palevioletred', 'pink']
     pie_data = {'Expected Returns': exp_return, 'Total Invested': invested}
     fig1 = px.pie(values=pie_data.values(), names=pie_data.keys(), labels=pie_data.keys(), title='Invested vs Returns', hole=0.6, width=500, height=500)
     fig1.update_traces(textposition='outside', textinfo='percent', marker=dict(colors=colors, line=dict(color='#000000', width=2)))
