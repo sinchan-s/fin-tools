@@ -181,7 +181,7 @@ with tab4:
         interest_r = 7.1
 
     #?Tab4 calculations & metric display
-    returns_t = inv_amt*(((1 + interest_r/100)**(time_period)-1)/(interest_r/100))
+    returns_t = inv_amt*(((1.071**time_period)-1)/0.071)*(1.071)
     invested = inv_amt*time_period
     exp_return = round(returns_t-invested)
     with col2:
