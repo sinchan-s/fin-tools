@@ -45,7 +45,7 @@ class calc_tax:
         return cess
 
 #! Tabs declaration
-tab1, tab2, tab3, tab4 = st.tabs(['SIP Returns', 'Loan EMI', 'Know Your Tax', 'PPF Calculator'])
+tab1, tab2, tab3, tab4 = st.tabs(['SIP Returns', 'Any Loan EMI', 'Know Your Tax', 'PPF Calculator'])
 
 #! Tab1 contents:
 #?Tab1 columns defined
