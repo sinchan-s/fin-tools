@@ -104,6 +104,11 @@ with tab2:
     with col1:
         st.plotly_chart(fig2)
 
+    #?Tab2 amortization schedule
+    with st.expander('Loan Repayment Table'):
+        st.write('wip!!')
+        st.table()
+
 #! Tab3 contents:
 #?Tab3 variables
 tenK = 10000
