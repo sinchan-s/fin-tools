@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import streamlit as st
 import plotly.express as px
 import numpy as np
+import numpy_financial as npf
 
 #! Basic configurations
 st.set_page_config(
@@ -25,7 +26,7 @@ st.markdown(hide_default_format, unsafe_allow_html=True)
 #! App header
 st.title("Welcome to the solutions everything related to money")
 
-#! tax calculator class
+#! Tax calculator class
 class calc_tax:
     def __init__(self,net_sal, slab, slab_int, slab2, tax_rate, *args):
         self.net_sal = net_sal
@@ -43,6 +44,26 @@ class calc_tax:
     def cess4(self):
         cess = round(0 if net_sal<self.slab2*tenK else sum(self.tax_list)*0.04)
         return cess
+
+#! Loan amortization schedule function
+def amort(loan_amt, interest_l, loan_tenure, emi_amt):
+    months = []
+    principle_2_loan = []
+    interest_2_loan = []
+    loan_emi = []
+    loan_balance = []
+    bal_amt = loan_amt
+    for i in range(loan_tenure):
+        month = i + 1
+        pcpl_amt = npf.ppmt(interest_l/1200, month, loan_tenure, -loan_amt)
+        int_amt = emi_amt - pcpl_amt
+        bal_amt -= pcpl_amt
+        principle_2_loan.append(round(pcpl_amt))
+        interest_2_loan.append(round(int_amt))
+        loan_emi.append(round(emi_amt))
+        loan_balance.append(round(bal_amt))
+        months.append(month)
+    return months, principle_2_loan, interest_2_loan, loan_emi, loan_balance
 
 #! Tabs declaration
 tab1, tab2, tab3, tab4 = st.tabs(['SIP Returns', 'Any Loan EMI', 'Know Your Tax', 'PPF Calculator'])
@@ -105,9 +126,13 @@ with tab2:
         st.plotly_chart(fig2)
 
     #?Tab2 amortization schedule
-    with st.expander('Loan Repayment Table'):
-        st.write('wip!!')
-        st.table()
+    with col2:
+            with st.expander('Loan Repayment Table'):
+                loan_tenure = tenure*12
+                m,p,i,e,b = amort(loan_amt, interest_l, loan_tenure, emi_amt)
+                data = {'EMI':e, 'Principle':p, 'Interest':i, 'Balance':b}
+                df = pd.DataFrame(data, index=m)
+                st.table(df)
 
 #! Tab3 contents:
 #?Tab3 variables
