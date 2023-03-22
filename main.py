@@ -127,12 +127,13 @@ with tab2:
 
     #?Tab2 amortization schedule
     with col2:
-            with st.expander('Loan Repayment Table'):
+            with st.expander('Loan Repayment Schedule', expanded=True):
                 loan_tenure = tenure*12
                 m,p,i,e,b = amort(loan_amt, interest_l, loan_tenure, emi_amt)
-                data = {'EMI':e, 'Principle':p, 'Interest':i, 'Balance':b}
-                df = pd.DataFrame(data, index=m)
-                st.table(df)
+                data = {'Month':m, 'EMI':e, 'Principle':p, 'Interest':i, 'Balance':b}
+                df = pd.DataFrame(data).set_index('Month')
+                df = df.style.format({'Month':'₹{:,}', 'EMI':'₹{:,}', 'Principle':'₹{:,}', 'Interest':'₹{:,}', 'Balance':'₹{:,}'})
+                st.dataframe(df)
 
 #! Tab3 contents:
 #?Tab3 variables
