@@ -5,7 +5,7 @@ Various financial tools(calculators) related to money.
 ![image](https://user-images.githubusercontent.com/63915540/226423747-5e8c7645-96bd-479c-bf20-9be0f471db07.png) 
 
 ## Loan EMI Calculator:
-![image](https://user-images.githubusercontent.com/63915540/226423997-afac1f72-1323-4d24-80f8-275f8f4c8b5b.png)
+![image](https://user-images.githubusercontent.com/63915540/227273890-74868457-6269-4be1-adf8-b4e5fc7ec052.png)
 
 ## Tax Calculator:
 ![image](https://user-images.githubusercontent.com/63915540/226424275-1b767083-8a3e-4614-ab96-ff071bfe9476.png)
