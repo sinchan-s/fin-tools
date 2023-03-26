@@ -8,7 +8,7 @@ Various financial tools(calculators) related to money.
 ![image](https://user-images.githubusercontent.com/63915540/227273890-74868457-6269-4be1-adf8-b4e5fc7ec052.png)
 
 ## Tax Calculator:
-![image](https://user-images.githubusercontent.com/63915540/226424275-1b767083-8a3e-4614-ab96-ff071bfe9476.png)
+![image](https://user-images.githubusercontent.com/63915540/227796002-143ef778-f202-468a-be82-e78dbdf832e4.png)
 
 ## PPF Calculator:
 ![image](https://user-images.githubusercontent.com/63915540/226424425-b3edd204-7cdb-41a0-953c-5eaf5c2b8a91.png)
