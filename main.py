@@ -173,7 +173,7 @@ with tab3:
         cess = calc_tax(net_sal, 0, 0, 50, 0, tax5, tax20, tax30).cess4()
         rebate = round(0 if net_sal>50*tenK else tax5)
         ur_tax = round(tax5+tax20+tax30+cess-rebate)
-        with st.expander('Tax Details', expanded=True):
+        with st.expander('Taxation Details', expanded=True):
                 desc_list = ['Gross Salary', 'Up to ₹ 2.5 lakh @ 0%', '₹ 2,50,001 to ₹ 5 lakh @ 5%', '₹ 5,00,001 to ₹ 10 lakh @ 20%', 'Over ₹ 10 lakh @ 30%', 'Cess @ 4%', 'Tax Rebate', 'Your Tax']
                 amt_list = [gross_sal, 0, tax5, tax20, tax30, cess, rebate, ur_tax]
                 tax_data = {'Description': desc_list, 'Amount': amt_list}
@@ -189,7 +189,7 @@ with tab3:
         cess = calc_tax(net_sal, 0, 0, 50, 0, tax5, tax10, tax15, tax20, tax30).cess4()
         rebate = round(0 if net_sal>70*tenK else tax5+tax10)
         ur_tax = round(tax5+tax10+tax15+tax20+tax30+cess-rebate)
-        with st.expander('Tax Details', expanded=True):
+        with st.expander('Taxation Details', expanded=True):
                 desc_list = ['Gross Salary', 'Up to ₹ 3 lakh @ 0%', '₹ 3,00,001 to ₹ 6 lakh @ 5%', '₹ 6,00,001 to ₹ 9 lakh @ 10%', '₹ 9,00,001 to ₹ 12 lakh @ 15%', '₹ 12,00,001 to ₹ 15 lakh @ 20%', 'Over ₹ 15 lakh @ 30%', 'Cess @ 4%', 'Tax Rebate', 'Your Tax']
                 amt_list = [gross_sal, 0, tax5, tax10, tax15, tax20, tax30, cess, rebate, ur_tax]
                 tax_data = {'Description': desc_list, 'Amount': amt_list}
