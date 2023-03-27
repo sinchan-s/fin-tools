@@ -132,8 +132,10 @@ with tab2:
                 m,p,i,e,b = amort(loan_amt, interest_l, loan_tenure, emi_amt)
                 data = {'Month':m, 'EMI':e, 'Principle':p, 'Interest':i, 'Balance':b}
                 df = pd.DataFrame(data).set_index('Month')
-                df = df.style.format({'Month':'', 'EMI':'₹{:,}', 'Principle':'₹{:,}', 'Interest':'₹{:,}', 'Balance':'₹{:,}'})
-                st.dataframe(df)
+                formtd_df = df.style.format({'Month':'', 'EMI':'₹{:,}', 'Principle':'₹{:,}', 'Interest':'₹{:,}', 'Balance':'₹{:,}'})
+                st.dataframe(formtd_df)
+    # st.line_chart(df.iloc[:,3:4], x='Month', )
+    st.line_chart(df.iloc[ : , : 3])
 
 #! Tab3 contents:
 #?Tab3 variables
