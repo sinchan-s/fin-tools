@@ -180,8 +180,9 @@ with tab3:
                 amt_list = [gross_sal, 0, tax5, tax20, tax30, cess, rebate, ur_tax]
                 tax_data = {'Description': desc_list, 'Amount': amt_list}
                 tax_df = pd.DataFrame(tax_data).set_index('Description')
-                tax_df = tax_df.style.format({'Description':'', 'Amount':'₹{:,}'})
-                st.table(tax_df)
+                formtd_tax_df = tax_df.style.format({'Description':'', 'Amount':'₹{:,}'})
+                st.table(formtd_tax_df)
+                st.bar_chart(tax_df.iloc[[0,-1], :])
     else:
         tax5 = calc_tax(net_sal, 30, 0.05, 60, 1.5).tax_slab1()
         tax10 = calc_tax(net_sal, 60, 0.1, 90, 3).tax_slab1()
@@ -196,8 +197,14 @@ with tab3:
                 amt_list = [gross_sal, 0, tax5, tax10, tax15, tax20, tax30, cess, rebate, ur_tax]
                 tax_data = {'Description': desc_list, 'Amount': amt_list}
                 tax_df = pd.DataFrame(tax_data).set_index('Description')
-                tax_df = tax_df.style.format({'Description':'', 'Amount':'₹{:,}'})
-                st.table(tax_df)
+                formtd_tax_df = tax_df.style.format({'Description':'', 'Amount':'₹{:,}'})
+                st.table(formtd_tax_df)
+                st.bar_chart(tax_df.iloc[[0,-1], :])
+                # colors = ['palevioletred', 'pink']
+                # disp_data = {'Gross Salary': tax_df.iloc[0, :][0], 'Your Tax': tax_df.iloc[-1, :][0]}
+                # fig1 = px.bar(disp_data, labels=disp_data.keys(), title='Salary vs Tax', width=500, height=500)
+                # fig1.update_traces(textposition='outside', textinfo='percent', marker=dict(colors=colors, line=dict(color='#000000', width=2)))
+                # st.plotly_chart(fig1)
 
 #! Tab4 contents:
 #?Tab4 columns defined
