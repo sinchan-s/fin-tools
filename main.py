@@ -134,8 +134,7 @@ with tab2:
                 df = pd.DataFrame(data).set_index('Month')
                 formtd_df = df.style.format({'Month':'', 'EMI':'₹{:,}', 'Principle':'₹{:,}', 'Interest':'₹{:,}', 'Balance':'₹{:,}'})
                 st.dataframe(formtd_df)
-    # st.line_chart(df.iloc[:,3:4], x='Month', )
-    st.line_chart(df.iloc[ : , : 3])
+    st.area_chart(df.iloc[ : , : 3])
 
 #! Tab3 contents:
 #?Tab3 variables
@@ -200,11 +199,6 @@ with tab3:
                 formtd_tax_df = tax_df.style.format({'Description':'', 'Amount':'₹{:,}'})
                 st.table(formtd_tax_df)
                 st.bar_chart(tax_df.iloc[[0,-1], :])
-                # colors = ['palevioletred', 'pink']
-                # disp_data = {'Gross Salary': tax_df.iloc[0, :][0], 'Your Tax': tax_df.iloc[-1, :][0]}
-                # fig1 = px.bar(disp_data, labels=disp_data.keys(), title='Salary vs Tax', width=500, height=500)
-                # fig1.update_traces(textposition='outside', textinfo='percent', marker=dict(colors=colors, line=dict(color='#000000', width=2)))
-                # st.plotly_chart(fig1)
 
 #! Tab4 contents:
 #?Tab4 columns defined
