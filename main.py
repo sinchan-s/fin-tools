@@ -17,7 +17,7 @@ st.set_page_config(
 #! Clean Footer
 hide_default_format = """
        <style>
-       #MainMenu {visibility: hidden; }
+       #MainMenu {visibility: hidden;}
        footer {visibility: hidden;}
        </style>
        """
@@ -48,7 +48,7 @@ class calc_tax:
 #! Loan amortization schedule function
 def amort(loan_amt, interest_l, loan_tenure, emi_amt):
     months = []
-    principle_2_loan = []
+    principal_2_loan = []
     interest_2_loan = []
     loan_emi = []
     loan_balance = []
@@ -56,14 +56,14 @@ def amort(loan_amt, interest_l, loan_tenure, emi_amt):
     for i in range(loan_tenure):
         month = i + 1
         pcpl_amt = npf.ppmt(interest_l/1200, month, loan_tenure, -loan_amt)
-        int_amt = emi_amt - pcpl_amt
+        int_amt = npf.ipmt(interest_l/1200, month, loan_tenure, -loan_amt)
         bal_amt -= pcpl_amt
-        principle_2_loan.append(round(pcpl_amt))
-        interest_2_loan.append(round(int_amt))
+        principal_2_loan.append(round(pcpl_amt))
+        interest_2_loan.append(round(abs(int_amt)))
         loan_emi.append(round(emi_amt))
         loan_balance.append(round(bal_amt))
         months.append(month)
-    return months, principle_2_loan, interest_2_loan, loan_emi, loan_balance
+    return months, principal_2_loan, interest_2_loan, loan_emi, loan_balance
 
 #! Tabs declaration
 tab1, tab2, tab3, tab4 = st.tabs(['SIP Returns', 'Any Loan EMI', 'Know Your Tax', 'PPF Calculator'])
@@ -130,9 +130,9 @@ with tab2:
             with st.expander('Loan Repayment Schedule', expanded=True):
                 loan_tenure = tenure*12
                 m,p,i,e,b = amort(loan_amt, interest_l, loan_tenure, emi_amt)
-                data = {'Month':m, 'EMI':e, 'Principle':p, 'Interest':i, 'Balance':b}
+                data = {'Month':m, 'EMI':e, 'Principal':p, 'Interest':i, 'Balance':b}
                 df = pd.DataFrame(data).set_index('Month')
-                formtd_df = df.style.format({'Month':'', 'EMI':'₹{:,}', 'Principle':'₹{:,}', 'Interest':'₹{:,}', 'Balance':'₹{:,}'})
+                formtd_df = df.style.format({'Month':'', 'EMI':'₹{:,}', 'Principal':'₹{:,}', 'Interest':'₹{:,}', 'Balance':'₹{:,}'})
                 st.dataframe(formtd_df)
     st.area_chart(df.iloc[ : , : 3])
 
