@@ -46,7 +46,7 @@ class calc_tax:
         return cess
 
 #! Loan amortization schedule function
-def amort(loan_amt, interest_l, loan_tenure, emi_amt):
+def amort(loan_amt, interest_l, loan_tenure):
     months = []
     principal_2_loan = []
     interest_2_loan = []
@@ -60,7 +60,7 @@ def amort(loan_amt, interest_l, loan_tenure, emi_amt):
         bal_amt -= pcpl_amt
         principal_2_loan.append(round(pcpl_amt))
         interest_2_loan.append(round(abs(int_amt)))
-        loan_emi.append(round(emi_amt))
+        loan_emi.append(round(pcpl_amt+int_amt))
         loan_balance.append(round(bal_amt))
         months.append(month)
     return months, principal_2_loan, interest_2_loan, loan_emi, loan_balance
@@ -108,12 +108,15 @@ with tab2:
         tenure = st.slider('Tenure', 1, 30)
 
     #?Tab2 calculations & metric display
-    emi_amt = loan_amt*(interest_l/1200)*(1+interest_l/1200)**(tenure*12)/((1+interest_l/1200)**(tenure*12)-1)
-    loan_plus_int = round(emi_amt*tenure*12)
+    loan_tenure = tenure*12
+    m,p,i,e,b = amort(loan_amt, interest_l, loan_tenure)
+    data = {'Month':m, 'EMI':e, 'Principal':p, 'Interest':i, 'Balance':b}
+    df = pd.DataFrame(data).set_index('Month')
+    loan_plus_int = round(e[0]*tenure*12)
     interest_amt = loan_plus_int-loan_amt
     int_per_loan = round(interest_amt/loan_amt,2)
     with col2:
-        st.metric('Monthly EMI', f'₹ {round(emi_amt):,}',)
+        st.metric('Monthly EMI', f'₹ {round(e[0]):,}',)
         st.metric('Total Interest', f'₹ {interest_amt:,}',f'{round(int_per_loan*100,2)}%')
         st.metric('Total Value', f'₹ {loan_plus_int:,}',f'{int_per_loan}x')
 
@@ -128,10 +131,6 @@ with tab2:
     #?Tab2 amortization schedule
     with col2:
             with st.expander('Loan Repayment Schedule', expanded=True):
-                loan_tenure = tenure*12
-                m,p,i,e,b = amort(loan_amt, interest_l, loan_tenure, emi_amt)
-                data = {'Month':m, 'EMI':e, 'Principal':p, 'Interest':i, 'Balance':b}
-                df = pd.DataFrame(data).set_index('Month')
                 formtd_df = df.style.format({'Month':'', 'EMI':'₹{:,}', 'Principal':'₹{:,}', 'Interest':'₹{:,}', 'Balance':'₹{:,}'})
                 st.dataframe(formtd_df)
     st.area_chart(df.iloc[ : , : 3])
