@@ -55,12 +55,13 @@ def amort(loan_amt, interest_l, loan_tenure):
     bal_amt = loan_amt
     for i in range(loan_tenure):
         month = i + 1
-        pcpl_amt = npf.ppmt(interest_l/1200, month, loan_tenure, -loan_amt)
-        int_amt = npf.ipmt(interest_l/1200, month, loan_tenure, -loan_amt)
+        pcpl_amt = npf.ppmt(interest_l/1200, month, loan_tenure, -loan_amt)     #principal amount payment/month func
+        int_amt = npf.ipmt(interest_l/1200, month, loan_tenure, -loan_amt)      #interest amount payment/month func
+        emi_amt = npf.pmt(interest_l/1200, loan_tenure, -loan_amt)              #loan emi payment/month func
         bal_amt -= pcpl_amt
         principal_2_loan.append(round(pcpl_amt))
         interest_2_loan.append(round(abs(int_amt)))
-        loan_emi.append(round(pcpl_amt+int_amt))
+        loan_emi.append(round(emi_amt))
         loan_balance.append(round(bal_amt))
         months.append(month)
     return months, principal_2_loan, interest_2_loan, loan_emi, loan_balance
