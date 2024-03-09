@@ -133,7 +133,7 @@ with tab2:
     with col2:
             with st.expander('Loan Repayment Schedule', expanded=True):
                 formtd_df = df.style.format({'Month':'', 'EMI':'₹{:,}', 'Principal':'₹{:,}', 'Interest':'₹{:,}', 'Balance':'₹{:,}'})
-                st.dataframe(formtd_df)
+                st.dataframe(formtd_df, use_container_width=True)
     st.area_chart(df.iloc[ : , : 3])
 
 #! Tab3 contents:
